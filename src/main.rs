@@ -42,11 +42,11 @@ async fn health_check_db(State(db): State<PgPool>) -> StatusCode {
     }
 }
 
-// ハンドラの定義
-// /hello パスにアクセスしたときに呼び出されるハンドラ
-async fn hello_world() -> &'static str {
-    "Hello, World! Unko!"
-}
+// // ハンドラの定義
+// // /hello パスにアクセスしたときに呼び出されるハンドラ
+// async fn hello_world() -> &'static str {
+//     "Hello, World! Unko!"
+// }
 
 // ヘルスチェック用のハンドラ
 pub async fn health_check() -> StatusCode {
