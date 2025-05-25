@@ -1,0 +1,23 @@
+futures = "0.3.31"
+reqwest = { version = "0.11", default-features = false, features = ["rustls-tls"] }
+
+fn main() {
+    println!("Hello, world!");
+
+    // 1. Get リクエストを送信する機構を2つ作成する。
+    let req1 = reqwest::get("https://google.com");
+    let req2 = reqwest::get("https://example.com");
+
+    // 2. 2つのリクエストを並行して実行する。
+    let parallel_reqs = async {futures::future::join(req1, req2).await};
+
+    // 3. tokioの非同期ランタイムを起動する。
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+
+    // 4. 非同期ランタイムに処理を実行する。
+    rt.block_on(parallel_reqs);
+
+}
