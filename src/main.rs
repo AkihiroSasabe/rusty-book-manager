@@ -1,10 +1,10 @@
 use std::net::{Ipv4Addr, SocketAddr};
 
 use anyhow::Result;
-use axum::{extract::State, http::StatusCode, routing::get, Router};
+use axum::{Router, extract::State, http::StatusCode, routing::get};
 use tokio::net::TcpListener;
 
-use sqlx::{postgres::PgConnectOptions, PgPool};
+use sqlx::{PgPool, postgres::PgConnectOptions};
 
 // a) データベースの接続設定を表す構造体
 struct DatabaseConfig {
@@ -53,7 +53,6 @@ pub async fn health_check() -> StatusCode {
     StatusCode::OK
 }
 
-
 // ヘルスチェックのテスト
 #[tokio::test]
 async fn test_health_check() {
@@ -90,7 +89,7 @@ async fn main() -> Result<()> {
         // ルータにデータベースチェック用のハンドラを登録
         .route("/health/db", get(health_check_db))
         // ルータの State にデータベース接続プールを追加し、各ハンドラで使えるようにする。
-        .with_state(conn_pool); 
+        .with_state(conn_pool);
 
     // ソケットアドレスの作成
     let addr = SocketAddr::new(Ipv4Addr::LOCALHOST.into(), 8080);
