@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - "README.md"
       - "frontend/**"
+
 jobs:
   check:
     name: Check
@@ -36,7 +37,7 @@ jobs:
         run: cargo make test-ci
       # 7
       - name: Clippy
-        run: cargo make clippy-ci --Drawwings
+        run: cargo make clippy-ci --Dwarnings
       # 8
       - name: Rustfmt
         run: cargo make fmt -- --check
